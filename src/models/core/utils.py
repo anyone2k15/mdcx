@@ -80,6 +80,9 @@ def get_video_size(json_data, file_path):
     if hd_get == "video":
         try:
             cap = cv2.VideoCapture(file_path)
+            if not cap.isOpened():
+                json_data["logs"] += f"\n DDDebug: 无法打开视频文件: {file_path}"
+                return json_data
             height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
             json_data["logs"] += (
                 f"\n DDDebug: 高度：{height}"
