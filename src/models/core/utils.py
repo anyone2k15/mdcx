@@ -72,12 +72,19 @@ def get_video_size(json_data, file_path):
             # Windows 系统指向 CloudDrive2 等网络挂载路径的链接，会带有前缀 \\?
             if file_path.startswith('\\\\?'):
                 file_path = file_path[3:]
+                json_data["logs"] += (
+                    f"\n DDDebug: {file_path}"
+                )
         else:
             hd_get = "path"
     if hd_get == "video":
         try:
             cap = cv2.VideoCapture(file_path)
             height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            json_data["logs"] += (
+                f"\n DDDebug: 高度：{height}"
+            )
+
             ##使用opencv获取编码器格式
             codec = int(cap.get(cv2.CAP_PROP_FOURCC))
             codec_fourcc = (
